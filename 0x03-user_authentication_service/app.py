@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.get("/")
 def hello_world():
+    """Dummy function"""
     return jsonify({"message": "Bienvenue"})
 
 

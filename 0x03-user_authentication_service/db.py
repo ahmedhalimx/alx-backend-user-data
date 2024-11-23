@@ -58,5 +58,20 @@ class DB:
         target_user = self._session.query(User).filter_by(**kwargs).first()
         if target_user is None:
             raise NoResultFound
-
         return target_user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Update user's attributes given it's ID
+        """
+        target_user = self.find_user_by(id=user_id)
+
+        column_names = User.__table__.columns.keys()
+        for key in kwargs.keys():
+            if key not in column_names:
+                raise ValueError
+
+        for key, value in kwargs.items():
+            setattr(target_user, key, value)
+
+        self._session.commit()
